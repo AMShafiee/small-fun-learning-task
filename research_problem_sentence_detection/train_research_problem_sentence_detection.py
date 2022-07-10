@@ -43,7 +43,7 @@ def article2SentenceAndLabels(articles, research_problem_sentences):
     return sentences, labels
 
 
-train_data_dir = 'training-data-master'
+train_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/training-data'
 
 train_articles, train_research_problem_sentences = loadArticles(train_data_dir)
 
@@ -84,5 +84,5 @@ model.fit(train_dataset.shuffle(len(train_labels)).batch(BATCH_SIZE),
           epochs=EPOCHS,
           batch_size=BATCH_SIZE)
 
-model.save_weights('small-fun-learning-task/outcome/model-SC-BERT/')
+model.save_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SC-BERT/')
 print('Model saved.')

@@ -48,7 +48,7 @@ def article2SentenceAndLabels(articles):
     return article_sentences, article_labels, sentence_count
 
 
-test_data_dir = 'test-data-master'
+test_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/evaluation-phase1'
 
 articles, catalogues = loadArticles(test_data_dir)
 
@@ -83,15 +83,15 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5, epsilon=1e-
                   from_logits=True),
               metrics=['accuracy'])
 
-model.load_weights('small-fun-learning-task/outcome/model-SC-BERT/')
+model.load_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SC-BERT/')
 print('Model loaded.')
 
 y_pred = model.predict(test_dataset.batch(BATCH_SIZE))
 np.set_printoptions(threshold=1e6)
 result = np.argmax(y_pred[0], axis=-1)
 
-if not os.path.exists('small-fun-learning-task/outcome/predicted_sentences'):
-    os.makedirs('small-fun-learning-task/outcome/predicted_sentences')
+if not os.path.exists('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences'):
+    os.makedirs('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences')
 
 start = 0  # start index of any article sentences in the result array
 for i, count in enumerate(sent_count):
@@ -99,11 +99,11 @@ for i, count in enumerate(sent_count):
     article_label = result[start:end]
     article_catalogue = catalogues[i]
 
-    if not os.path.exists('small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue):
+    if not os.path.exists('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue):
         os.makedirs(
-            'small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue)
+            '/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue)
 
-    with open(os.path.join('small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue, 'sentences_with_research_problem.txt'), 'w', encoding='utf-8') as f:
+    with open(os.path.join('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue, 'sentences_with_research_problem.txt'), 'w', encoding='utf-8') as f:
         for j in range(len(article_label)):
             if article_label[j] == 1:
                 f.write(str(j + 1) + '\n')

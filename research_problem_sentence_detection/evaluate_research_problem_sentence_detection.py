@@ -63,7 +63,7 @@ def article2SentenceAndLabels(articles, research_problem_sentences):
 #     return 2 * ((precision * recall)/(precision + recall + K.epsilon()))
 
 
-test_data_dir = 'test-data-master'
+test_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/trial-data'
 
 articles, research_problem_sentences = loadArticles(test_data_dir)
 
@@ -90,7 +90,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=5e-5, epsilon=1e-
               metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 #   metrics=['accuracy', recall, precision, f1_score])
 
-model.load_weights('small-fun-learning-task/outcome/model-SC-BERT/')
+model.load_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SC-BERT/')
 print('Model loaded.')
 
 # test_loss, test_accuracy, test_recall, test_precision, test_f1_score = model.evaluate(

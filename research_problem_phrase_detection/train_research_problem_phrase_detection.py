@@ -73,6 +73,7 @@ def loadArticles(train_data_dir, trial_data_dir):
                     json_data = json.load(f)["has research problem"]
                     if isinstance(json_data[0], list):
                         for each_element in json_data:
+#                            print("in folder", article_index, ": ", each_element[-1])
                             research_problem.append(
                                 {'sentence': each_element[-1].get("from sentence", None), 'phrases': list(map(str.lower, each_element[:-1]))})
                     else:
@@ -211,8 +212,8 @@ def buildData(research_problem_sentences, research_problem_spans):
     return x, y
 
 
-train_data_dir = 'training-data-master'
-trial_data_dir = 'trial-data'
+train_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/training-data'
+trial_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/trial-data'
 articles, research_problems = loadArticles(train_data_dir, trial_data_dir)
 
 train_sentences, train_spans = article2ResearchProblemSentenceAndSpans(
@@ -258,5 +259,5 @@ model.fit(train_dataset.shuffle(len(train_y)).batch(BATCH_SIZE),
           epochs=EPOCHS,
           batch_size=BATCH_SIZE)
 
-model.save_weights('small-fun-learning-task/outcome/model-SI-BERT/')
+model.save_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SI-BERT/')
 print('Model saved.')

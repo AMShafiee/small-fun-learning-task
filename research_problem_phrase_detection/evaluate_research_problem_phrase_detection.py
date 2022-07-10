@@ -159,7 +159,7 @@ def buildData(research_problem_sentences, research_problem_spans):
     return x, y
 
 
-test_data_dir = 'trial-data'
+test_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/trial-data'
 articles, research_problems = loadArticles(test_data_dir)
 
 test_sentences, test_spans = article2ResearchProblemSentenceAndSpans(articles, research_problems)
@@ -180,7 +180,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5, epsilon=1e-
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 
-model.load_weights('small-fun-learning-task/outcome/model-SI-BERT/')
+model.load_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SI-BERT/')
 print('Model loaded.')
 
 test_loss, test_accuracy, test_recall, test_precision = model.evaluate(

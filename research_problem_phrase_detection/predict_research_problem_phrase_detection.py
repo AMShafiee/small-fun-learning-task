@@ -187,8 +187,8 @@ def buildData(contribution_sentences):
     return x, token_spans, maxTokenLen
 
 
-test_article_dir = 'evaluation-phase1'
-test_sentence_dir = 'evaluation-phase2'
+test_article_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/evaluation-phase1'
+test_sentence_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/evaluation-phase2'
 articles, articles_raw, catalogues = loadArticles(test_article_dir)
 research_problems = loadSentences(test_sentence_dir, articles, catalogues)
 test_sentences, research_problem_sentences_raw, research_problems_ascend, sent_count = article2ResearchProblemSentence(articles,
@@ -210,7 +210,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5, epsilon=1e-
                   from_logits=True),
               metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 
-model.load_weights('small-fun-learning-task/outcome/model-SI-BERT/')
+model.load_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SI-BERT/')
 print('Model Loaded.')
 
 np.set_printoptions(threshold=1e6)
@@ -226,8 +226,8 @@ for article_category_and_folder_name, sent_num in enumerate(sent_count):
     article_spans = []
     article_catalogue = catalogues[article_category_and_folder_name]
 
-    if not os.path.exists('small-fun-learning-task/outcome/evaluation-phase2/' + article_catalogue + '/triples'):
-        os.makedirs('small-fun-learning-task/outcome/evaluation-phase2/' +
+    if not os.path.exists('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/evaluation-phase2/' + article_catalogue + '/triples'):
+        os.makedirs('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/evaluation-phase2/' +
                     article_catalogue + '/triples')
 
     for j in range(start, end):
@@ -273,7 +273,7 @@ for article_category_and_folder_name, sent_num in enumerate(sent_count):
         contribution_sentence_content.append(
             research_problem_sentences_raw[article_category_and_folder_name][sentence_index])
 
-    with open(os.path.join('small-fun-learning-task/outcome/evaluation-phase2/' + article_catalogue, 'predicted_research_problem.txt'),
+    with open(os.path.join('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/evaluation-phase2/' + article_catalogue, 'predicted_research_problem.txt'),
               'w', encoding='utf-8') as f:
 
         for m in range(len(union_predict_article_spans)):
