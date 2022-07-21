@@ -159,6 +159,27 @@ def buildData(research_problem_sentences, research_problem_spans):
     return x, y
 
 
+def recall(y_true, y_pred):
+    y_true = K.ones_like(y_true)
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+    all_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
+
+    recall = true_positives / (all_positives + K.epsilon())
+    return recall
+
+def precision(y_true, y_pred):
+    y_true = K.ones_like(y_true)
+    true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
+
+    predicted_positives = K.sum(K.round(K.clip(y_pred, 0, 1)))
+    return true_positives / (predicted_positives + K.epsilon())
+
+def f1_score(y_true, y_pred):
+    precision_value = precision(y_true, y_pred)
+    recall_value = recall(y_true, y_pred)
+    return 2 * ((precision_value * recall_value)/(precision_value + recall_value + K.epsilon()))
+
+
 test_data_dir = '/content/drive/MyDrive/Colab Notebooks/datasets/trial-data'
 articles, research_problems = loadArticles(test_data_dir)
 
@@ -178,16 +199,16 @@ print('test data loaded:({0})'.format(len(test_y)))
 model = TFBertForTokenClassification.from_pretrained('bert-base-uncased', config=config)
 model.compile(optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5, epsilon=1e-08, clipnorm=1.0),
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-              metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
+              # metrics=['accuracy', tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
+              metrics=['accuracy', recall, precision, f1_score])
 
 model.load_weights('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/model-SI-BERT/')
 print('Model loaded.')
 
-test_loss, test_accuracy, test_recall, test_precision = model.evaluate(
+test_loss, test_accuracy, test_recall, test_precision, test_f1_score = model.evaluate(
     test_dataset.batch(BATCH_SIZE), batch_size=BATCH_SIZE)
 print('test loss:', test_loss)
 print('test accuracy:', test_accuracy)
 print('test recall:', test_recall)
 print('test precision:', test_precision)
-print('test f1_score:', 2 * ((test_precision * test_recall) /
-      (test_precision + test_recall + K.epsilon())))
+print('test f1_score:', test_f1_score)

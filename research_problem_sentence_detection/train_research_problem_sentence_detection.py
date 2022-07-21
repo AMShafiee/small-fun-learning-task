@@ -28,8 +28,8 @@ def loadArticles(data_dir):
                     articles.append(article.lower())
 
                 with open(os.path.join(article_index, 'info-units/research-problem.json'), encoding='utf-8') as f:
-                    research_problem_sentences.append([element[-1].get("from sentence", None) if isinstance(
-                        element, list) else element.get("from sentence", None) if isinstance(element, dict) else None for element in json.load(f)["has research problem"]])
+                    research_problem_sentences.append([element[-1].get("from sentence", "").lower() if isinstance(
+                        element, list) else element.get("from sentence", "").lower() if isinstance(element, dict) else "" for element in json.load(f)["has research problem"]])
     return articles, research_problem_sentences
 
 

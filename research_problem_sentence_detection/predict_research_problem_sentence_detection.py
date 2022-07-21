@@ -98,6 +98,7 @@ for i, count in enumerate(sent_count):
     end = start + count
     article_label = result[start:end]
     article_catalogue = catalogues[i]
+    print("\nPredicted sentence numbers that include research problem for ", article_catalogue, end=": ")
 
     if not os.path.exists('/content/drive/MyDrive/Colab Notebooks/small-fun-learning-task/outcome/predicted_sentences/' + article_catalogue):
         os.makedirs(
@@ -107,6 +108,7 @@ for i, count in enumerate(sent_count):
         for j in range(len(article_label)):
             if article_label[j] == 1:
                 f.write(str(j + 1) + '\n')
+                print(j + 1, end="; ")
     start = end
 
-print("Predicted sentences with research problems saved.")
+print("\nPredicted sentences with research problems saved.")
